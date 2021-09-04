@@ -35,22 +35,48 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String username = mUsername.getText().toString();
                 String password = mPassword.getText().toString();
+                boolean usernameFound = false;
 
                 for(int i = 0; i < users.size(); i++) {
-                    if(users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password)) {
-                        Intent j = new Intent(MainActivity.this, LandingPageActivity.class);
-                        startActivity(j);
+                    if(users.get(i).getUsername().equals(username)) {
+                        usernameFound = true;
+                        if (users.get(i).getPassword().equals(password)) {
+                            Intent j = new Intent(MainActivity.this, LandingPageActivity.class);
+                            Bundle extraInfo = new Bundle();
+                            extraInfo.putString("userId", users.get(i).getId());
+                            extraInfo.putString("username", username);
+                            j.putExtras(extraInfo);
+                            startActivity(j);
+                            finish();
+                        } else {
+                            mUsername.clearFocus();
+                            mUsername.setSelectAllOnFocus(false);
+
+                            mPassword.setSelectAllOnFocus(true);
+                            mPassword.requestFocus();
+
+                            Context context = getApplicationContext();
+                            CharSequence text = "Wrong password. Please re-enter credentials.";
+                            int duration = Toast.LENGTH_SHORT;
+
+                            Toast toast = Toast.makeText(context, text, duration);
+                            toast.show();
+                        }
                     }
-                    else {
-                        Context context = getApplicationContext();
-                        CharSequence text = "Wrong username or password. Please re-enter credentials.";
-                        int duration = Toast.LENGTH_SHORT;
+                }
+                if(!usernameFound) {
+                    mPassword.clearFocus();
+                    mPassword.setSelectAllOnFocus(false);
 
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
+                    mUsername.setSelectAllOnFocus(true);
+                    mUsername.requestFocus();
 
+                    Context context = getApplicationContext();
+                    CharSequence text = "Wrong Username. Please re-enter credentials.";
+                    int duration = Toast.LENGTH_SHORT;
 
-                    }
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
                 }
             }
         });
