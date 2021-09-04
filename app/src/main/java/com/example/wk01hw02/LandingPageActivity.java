@@ -2,6 +2,8 @@ package com.example.wk01hw02;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -14,6 +16,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LandingPageActivity extends AppCompatActivity {
+    public static final String ACTIVITY_LABEL = "SECOND_ACTIVITY_COM_DACLINK";
     private TextView textViewResult;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,5 +61,13 @@ public class LandingPageActivity extends AppCompatActivity {
                 textViewResult.setText(t.getMessage());
             }
         });
+    }
+    public static Intent getIntent(Context context, String id_val, String user_val) {
+        Intent intent = new Intent(context, LandingPageActivity.class);
+
+        intent.putExtra("id", id_val);
+        intent.putExtra("user", user_val);
+
+        return intent;
     }
 }

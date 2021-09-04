@@ -16,6 +16,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     List<User> users = new ArrayList<>();
 
+
     Button loginButton;
 
     @Override
@@ -38,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
                 boolean usernameFound = false;
 
                 for(int i = 0; i < users.size(); i++) {
-                    if(users.get(i).getUsername().equals(username)) {
+                    if(checkUsername(users.get(i).getUsername(), username)) {
                         usernameFound = true;
-                        if (users.get(i).getPassword().equals(password)) {
+                        if (checkPassword(users.get(i).getPassword(), password)) {
                             Intent j = new Intent(MainActivity.this, LandingPageActivity.class);
                             Bundle extraInfo = new Bundle();
                             extraInfo.putString("userId", users.get(i).getId());
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         users.add(new User("Bret", "bret", "1"));
         users.add(new User("Antonette", "anton", "2"));
         users.add(new User("Samantha", "sam", "3"));
@@ -92,5 +94,13 @@ public class MainActivity extends AppCompatActivity {
         users.add(new User("Delphine", "del", "9"));
         users.add(new User("Moriah.Stanton", "mo", "10"));
 
+    }
+
+    public static boolean checkUsername(String username1, String username2) {
+        return username1.equals(username2);
+    }
+
+    public static boolean checkPassword(String password1, String password2) {
+        return password1.equals(password2);
     }
 }
